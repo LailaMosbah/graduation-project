@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useState } from "react";
+
+import Navbar from "./components/Navbar/Navbar";
+import Sidebar from "./components/Sidebar/Sidebar";
+// Matrial UI
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { Toolbar } from "@mui/material";
+import Box from "@mui/material/Box";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#ffffff", // الأبيض
+    },
+    text: {
+      primary: "#000000", // الأسود للنصوص
+    },
+  },
+});
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [mobileOpen, setMobileOpen] = useState(false);
 
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ThemeProvider theme={theme}>
+        <Box sx={{ display: "flex" }}>
+          <Navbar handleDrawerToggle={handleDrawerToggle} />
+          <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+
+          {/* هنا هيبقى المحتوى الأساسي */}
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            {/* عشان تسيب مساحة للـ Navbar فوق */}
+            <Toolbar />
+            <h1>Welcome to PixelsDB 👋</h1>
+          </Box>
+        </Box>
+      </ThemeProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
