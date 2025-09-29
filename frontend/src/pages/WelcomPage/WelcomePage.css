@@ -1,0 +1,70 @@
+.welcome-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* النص */
+.welcome-content {
+    max-width: 400px;
+}
+
+.welcome-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.welcome-content p {
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.btns {
+    display: flex;
+    gap: 10px;
+}
+
+.login-btn {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.signup-btn {
+    background: #eee;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* الصورة */
+.welcome-img img {
+    width: 100%;
+}
+
+/* الموبايل: الصورة تبقى خلفية */
+@media (max-width: 768px) {
+    .welcome-container {
+        flex-direction: column;
+        justify-content: center;
+        background: url("../assets/images/WelcomImg.png") no-repeat center/cover;
+    }
+
+    .welcome-img {
+        display: none;
+        /* نخفي img */
+    }
+
+    .welcome-content {
+        background: rgba(255, 255, 255, 0.8);
+        /* خلفية فاتحة للنص */
+        padding: 20px;
+        border-radius: 8px;
+    }
+}

@@ -1,5 +1,9 @@
 import "./App.css";
-import { useState } from "react";
+// import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import WelcomePage from "./pages/WelcomPage/WelcomePage";
+import LoginForm from "./components/Forms/LoginForm";
+import SignupForm from "./components/Forms/SignupForm";
 
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -20,25 +24,16 @@ const theme = createTheme({
 });
 
 function App() {
-  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Box sx={{ display: "flex" }}>
-          <Navbar handleDrawerToggle={handleDrawerToggle} />
-          <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-
-          {/* هنا هيبقى المحتوى الأساسي */}
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            {/* عشان تسيب مساحة للـ Navbar فوق */}
-            <Toolbar />
-            <h1>Welcome to PixelsDB 👋</h1>
-          </Box>
-        </Box>
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignupForm />} />
+        </Routes>
       </ThemeProvider>
     </>
   );
