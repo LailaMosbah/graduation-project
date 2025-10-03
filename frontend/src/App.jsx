@@ -7,6 +7,8 @@ import WelcomePage from "./pages/WelcomPage/WelcomePage";
 import SignupPage from "./pages/FormsPage/SignupPage";
 import LoginPage from "./pages/FormsPage/LoginPage";
 
+import { AuthProvider } from "./contexts/AuthContext.jsx";
+
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 // Matrial UI
@@ -24,12 +26,14 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Routes>
-          <Route path="/" element={<WelcomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-        </Routes>
+        <AuthProvider>
+          <CssBaseline />
+          <Routes>
+            <Route path="/" element={<WelcomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+          </Routes>
+        </AuthProvider>
       </ThemeProvider>
     </>
   );

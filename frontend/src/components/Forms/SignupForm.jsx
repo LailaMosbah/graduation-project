@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useAuth } from "../../contexts/useAuth"
 
 // MUI
 import TextField from '@mui/material/TextField'
@@ -8,10 +9,15 @@ import Button from '@mui/material/Button'
 export default function SignupForm() {
   const form = useForm()
   const { register, handleSubmit, formState: { errors }, getValues } = form
+  const { signup } = useAuth()
+
 
   // On form submit
   function onSubmit(data) {
+    const { confPassword, ...cleanData } = data
+    signup(cleanData)
     console.log("Form Data:", data)
+    console.log("confPassword :", confPassword)
   }
 
   // On form error
@@ -86,7 +92,7 @@ export default function SignupForm() {
         margin="normal"
       />
 
-      <Button type="submit" fullWidth variant="contained">
+      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, py: 1.5, fontSize: '1rem', backgroundColor: '#094BB0', '&:hover': { backgroundColor: '#083a8a' } }}>
         Sign Up
       </Button>
     </form>

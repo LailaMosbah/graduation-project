@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useAuth } from "../../contexts/useAuth"
 
 // MUI
 import TextField from '@mui/material/TextField'
@@ -8,10 +9,12 @@ import Button from '@mui/material/Button'
 export default function LoginForm() {
     const form = useForm()
     const { register, handleSubmit, formState: { errors } } = form
+    const { login } = useAuth()
 
 
     // On form submit
     function onSubmit(data) {
+        login(data)
         console.log("Form Data:", data)
     }
 

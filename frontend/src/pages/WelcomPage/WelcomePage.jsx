@@ -1,5 +1,6 @@
 import React from "react";
-import welcomeImg from "../../assets/images/WelcomImg.png";
+// React Router
+import { useNavigate } from "react-router-dom";
 
 // Material UI
 import Box from "@mui/material/Box";
@@ -9,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 export default function WelcomePage() {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -16,7 +18,7 @@ export default function WelcomePage() {
         height: "100vh",
         maxHeight: "100vh",
         overflow: "hidden",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        background: "linear-gradient(135deg, #094BB0 0%, #569CF9 100%)",
         display: "flex",
         alignItems: "center",
 
@@ -93,13 +95,14 @@ export default function WelcomePage() {
                 }}
               >
                 <Button
+                  onClick={() => navigate("/signup")}
                   variant="contained"
-                  color="primary"
-                  href="/signup"
                   size="large"
                   sx={{
                     px: 3,
                     py: 1,
+                    backgroundColor: "primary.contrastText",
+                    color: "primary.main",
                     fontSize: { xs: "0.9rem", sm: "1rem" },
                     fontWeight: "bold",
                     borderRadius: 2,
@@ -116,9 +119,9 @@ export default function WelcomePage() {
                 </Button>
 
                 <Button
+                  onClick={() => navigate("/login")}
                   variant="outlined"
                   color="secondary"
-                  href="/login"
                   size="large"
                   sx={{
                     px: 3,
@@ -158,12 +161,12 @@ export default function WelcomePage() {
             >
               <Box
                 component="img"
-                src={welcomeImg}
+                src="../../../public/WelcomeImg.png"
                 alt="Database Visualization"
                 sx={{
                   width: "100%",
-                  maxWidth: { xs: "250px", sm: "350px", md: "400px" },
-                  maxHeight: { xs: "250px", sm: "350px", md: "400px" },
+                  maxWidth: { xs: "250px", sm: "350px", md: "550px" },
+                  maxHeight: { xs: "250px", sm: "350px", md: "500px" },
                   height: "auto",
                   objectFit: "contain",
                   borderRadius: 2,
