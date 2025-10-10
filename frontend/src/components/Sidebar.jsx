@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useDatabase } from "../contexts/useDatabase";
+
+// MUI components
 import {
     Drawer,
     List,
@@ -13,27 +16,16 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
-const fakeData = [
-    {
-        dbName: "Database1",
-        tables: [
-            { tableName: "Users", columns: ["id", "name", "email"] },
-            { tableName: "Orders", columns: ["id", "userId", "amount"] },
-        ],
-    },
-    {
-        dbName: "Database2",
-        tables: [
-            { tableName: "Products", columns: ["id", "title", "price"] },
-            { tableName: "Categories", columns: ["id", "categoryName"] },
-        ],
-    },
-];
+
 
 export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
     const [openSchemas, setOpenSchemas] = useState(false);
     const [openDb, setOpenDb] = useState({});
     const [openTable, setOpenTable] = useState({});
+
+    // Fake data for demonstration
+    const { databases } = useDatabase();
+    const fakeData = databases; // Use actual data from context
 
     const drawerContent = (
         <div>

@@ -161,7 +161,7 @@ export default function WelcomePage() {
             >
               <Box
                 component="img"
-                src="../../../public/WelcomeImg.png"
+                src="WelcomeImg.png"
                 alt="Database Visualization"
                 sx={{
                   width: "100%",

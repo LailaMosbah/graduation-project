@@ -3,14 +3,17 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages & Components
-import WelcomePage from "./pages/WelcomPage/WelcomePage";
+import WelcomePage from "./pages/WelcomePage.jsx";
 import SignupPage from "./pages/FormsPage/SignupPage";
 import LoginPage from "./pages/FormsPage/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute.jsx"
+import ChatPage from "./pages/ChatPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
+// Contexts
 import { AuthProvider } from "./contexts/AuthContext.jsx";
+import { DatabaseProvider } from "./contexts/DatabaseContext.jsx";
 
-import Navbar from "./components/Navbar/Navbar";
-import Sidebar from "./components/Sidebar/Sidebar";
 // Matrial UI
 import { ThemeProvider } from "@mui/material/styles"
 import theme from "./theme/theme";
@@ -27,12 +30,17 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <CssBaseline />
-          <Routes>
-            <Route path="/" element={<WelcomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-          </Routes>
+          <DatabaseProvider>
+            <CssBaseline />
+            <Routes>
+              <Route path="/" element={<WelcomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/chat" element={<ProtectedRoute ><ChatPage /> </ProtectedRoute >} />
+              <Route path="/profile" element={<ProtectedRoute ><ProfilePage /> </ProtectedRoute >} />
+              <Route path="*" element={<><h1>NOT FOUND 404</h1></>} />
+            </Routes>
+          </DatabaseProvider>
         </AuthProvider>
       </ThemeProvider>
     </>

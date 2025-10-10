@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuth } from "../../contexts/useAuth"
+import { useNavigate } from "react-router-dom"
 
 // MUI
 import TextField from '@mui/material/TextField'
@@ -10,6 +11,7 @@ export default function SignupForm() {
   const form = useForm()
   const { register, handleSubmit, formState: { errors }, getValues } = form
   const { signup } = useAuth()
+  const navigate = useNavigate()
 
 
   // On form submit
@@ -18,11 +20,13 @@ export default function SignupForm() {
     signup(cleanData)
     console.log("Form Data:", data)
     console.log("confPassword :", confPassword)
+    navigate("/chat")
   }
 
   // On form error
   function onError(errors) {
     console.log("Validation Errors:", errors)
+    alert("Please fix the errors in the form.")
   }
 
   return (
