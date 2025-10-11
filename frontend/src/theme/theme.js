@@ -15,6 +15,13 @@ const theme = createTheme({
       default: "#f5f5f5",
       paper: "#ffffff",
     },
+    text: {
+      default: "black",
+      main: "#ffffff",
+      light: "#757575",
+      secondary: "#757575",
+      disabled: "#BDBDBD",
+    },
     // لو عايزة ألوان مخصصة إضافية:
     tertiary: {
       main: "#00bfa5",
