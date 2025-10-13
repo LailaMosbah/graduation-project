@@ -106,61 +106,6 @@ export default function Chat({ onSend }) {
                 <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
                     <form onSubmit={handleSubmit(onSubmit)} style={{ flex: 1, display: "flex", flexDirection: "column" }}>
                         <Stack spacing={3} sx={{ flex: 1, mt: 1 }}>
-                            {/* Database Select */}
-                            <FormControl fullWidth error={!!errors.database}>
-                                <InputLabel id="database-select-label">
-                                    Select Database
-                                </InputLabel>
-                                <Controller
-                                    name="database"
-                                    control={control}
-                                    rules={{
-                                        required: "Please select a database",
-                                    }}
-                                    render={({ field }) => (
-                                        <Select
-                                            {...field}
-                                            labelId="database-select-label"
-                                            label="Select Database"
-                                            input={<OutlinedInput label="Select Database" />}
-                                            sx={{
-                                                borderRadius: 2,
-                                                '& .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: '#e0e0e0',
-                                                },
-                                                '&:hover .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: 'primary.main',
-                                                }
-                                            }}
-                                        >
-                                            {databases.map((db) => (
-                                                <MenuItem key={db.dbId} value={db.dbName}>
-                                                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                                                        <Box sx={{
-                                                            width: 8,
-                                                            height: 8,
-                                                            borderRadius: '50%',
-                                                            backgroundColor: 'primary.main'
-                                                        }} />
-                                                        {db.dbName}
-                                                        <Chip
-                                                            label={`${db.tables.length} tables`}
-                                                            size="small"
-                                                            variant="outlined"
-                                                            sx={{ ml: 'auto', height: 20, fontSize: '0.6rem' }}
-                                                        />
-                                                    </Box>
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    )}
-                                />
-                                {errors.database && (
-                                    <FormHelperText sx={{ fontSize: '0.8rem' }}>
-                                        {errors.database.message}
-                                    </FormHelperText>
-                                )}
-                            </FormControl>
 
                             {/* Question Field */}
                             <Controller
@@ -178,7 +123,7 @@ export default function Chat({ onSend }) {
                                         {...field}
                                         fullWidth
                                         multiline
-                                        rows={3}
+                                        rows={1}
                                         placeholder="Type your question in natural language...
 Example: 'Show me all customers from New York who made purchases in the last month'"
                                         error={!!errors.question}
@@ -190,14 +135,19 @@ Example: 'Show me all customers from New York who made purchases in the last mon
                                                 fontSize: '0.95rem',
                                                 '& textarea': {
                                                     resize: 'vertical',
-                                                    minHeight: '80px'
-                                                }
+                                                    minHeight: '80px',
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: 'primary.main',
+                                                },
+                                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: 'primary.main',
+                                                    borderWidth: '2px',
+                                                },
                                             },
-                                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: 'primary.main',
-                                            }
                                         }}
                                     />
+
                                 )}
                             />
 
@@ -209,9 +159,62 @@ Example: 'Show me all customers from New York who made purchases in the last mon
                                 pt: 2,
                                 borderTop: "1px solid #f0f0f0"
                             }}>
-                                <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
-                                    Press Enter to send • Shift+Enter for new line
-                                </Typography>
+                                {/* Database Select */}
+                                <FormControl fullWidth error={!!errors.database}>
+                                    <InputLabel id="database-select-label">
+                                        Select Database
+                                    </InputLabel>
+                                    <Controller
+                                        name="database"
+                                        control={control}
+                                        rules={{
+                                            required: "Please select a database",
+                                        }}
+                                        render={({ field }) => (
+                                            <Select
+                                                {...field}
+                                                labelId="database-select-label"
+                                                label="Select Database"
+                                                input={<OutlinedInput label="Select Database" />}
+                                                sx={{
+                                                    borderRadius: 2,
+                                                    '& .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#e0e0e0',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'primary.main',
+                                                    }
+                                                }}
+                                            >
+                                                {databases.map((db) => (
+                                                    <MenuItem key={db.dbId} value={db.dbName}>
+                                                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                                            <Box sx={{
+                                                                width: 8,
+                                                                height: 8,
+                                                                borderRadius: '50%',
+                                                                backgroundColor: 'primary.main'
+                                                            }} />
+                                                            {db.dbName}
+                                                            <Chip
+                                                                label={`${db.tables.length} tables`}
+                                                                size="small"
+                                                                variant="outlined"
+                                                                sx={{ ml: 'auto', height: 20, fontSize: '0.6rem' }}
+                                                            />
+                                                        </Box>
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        )}
+                                    />
+                                    {errors.database && (
+                                        <FormHelperText sx={{ fontSize: '0.8rem' }}>
+                                            {errors.database.message}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                                {/* Submit Button */}
                                 <Button
                                     type="submit"
                                     variant="contained"
@@ -219,7 +222,7 @@ Example: 'Show me all customers from New York who made purchases in the last mon
                                     endIcon={<SendIcon />}
                                     sx={{
                                         borderRadius: 2,
-                                        px: 3,
+                                        px: 2,
                                         py: 1,
                                         background: "linear-gradient(135deg, #094BB0 0%, #094BB0 100%)",
                                         boxShadow: "0 4px 15px rgba(102, 126, 234, 0.3)",
