@@ -2,6 +2,12 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useDatabase } from "../contexts/useDatabase";
 
+// Services
+import { translateToSQL } from "../services/translateToSql";
+
+// Components
+import SqlResult from "./SqlResult";
+
 // MUI Components
 import {
     Box, Stack, TextField, Button, Select, MenuItem, Typography, Paper, FormControl, FormHelperText,
@@ -10,9 +16,14 @@ import {
 import OutlinedInput from '@mui/material/OutlinedInput';
 import SendIcon from '@mui/icons-material/Send';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import Tooltip from '@mui/material/Tooltip';
 
+
+
+// ====== Begin of Component ======
 export default function Chat({ onSend }) {
     const { databases } = useDatabase();
+    const [sqlResult, setSqlResult] = React.useState("");
 
     const {
         handleSubmit, control, reset, watch, formState: { errors, isSubmitting }, } = useForm({
@@ -26,6 +37,8 @@ export default function Chat({ onSend }) {
     const database = watch("database");
 
     const onSubmit = async (data) => {
+        const sql = await translateToSQL(data.question, data.database);
+        setSqlResult(sql);
         await onSend(data);
         reset({ question: "", database: data.database });
     };
@@ -214,7 +227,7 @@ Example: 'Show me all customers from New York who made purchases in the last mon
                                         </FormHelperText>
                                     )}
                                 </FormControl>
-                                {/* Submit Button */}
+                                {/* Submit Button (Translate the Text To Sql) */}
                                 <Button
                                     type="submit"
                                     variant="contained"
@@ -227,6 +240,7 @@ Example: 'Show me all customers from New York who made purchases in the last mon
                                         background: "linear-gradient(135deg, #094BB0 0%, #094BB0 100%)",
                                         boxShadow: "0 4px 15px rgba(102, 126, 234, 0.3)",
                                         color: "white",
+                                        lineHeight: 1.3,
                                         '&:hover': {
                                             boxShadow: "0 6px 20px rgba(102, 126, 234, 0.4)",
                                             transform: "translateY(-1px)"
@@ -243,6 +257,24 @@ Example: 'Show me all customers from New York who made purchases in the last mon
                             </Box>
                         </Stack>
                     </form>
+                    {/* SQL Result Preview */}
+                    <Box sx={{ mt: 4, borderTop: "1px solid #f0f0f0", pt: 3 }}>
+                        {
+                            sqlResult && (
+                                <>
+                                    <SqlResult sqlResult={sqlResult} />
+                                    <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end", gap: 2 }}>
+                                        <Tooltip title="Edit the SQL query before executing" placement="bottom-start">
+                                            <Button variant="outlined">Edit</Button>
+                                        </Tooltip>
+                                        <Tooltip title="Execute the SQL query on the selected database" placement="bottom-start">
+                                            <Button variant="outlined">Send</Button>
+                                        </Tooltip>
+                                    </Box>
+                                </>
+                            )
+                        }
+                    </Box>
                 </Box>
             </CardContent>
         </Card>
