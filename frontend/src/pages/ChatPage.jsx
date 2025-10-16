@@ -74,7 +74,7 @@ export default function ChatPage() {
                         flex: { xs: 1, lg: 1 },
                         minWidth: { lg: 400 }
                     }}>
-                        <Chat onSend={handleSend} />
+                        <Chat onExecute={handleSend} />
                     </Box>
 
                     <Box sx={{
