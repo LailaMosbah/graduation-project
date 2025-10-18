@@ -5,41 +5,27 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Chat from '../components/Chat';
 import QueryResult from '../components/QueryResult';
+import { executeQuery } from '../services/executeQuery';
 
 // Material UI
 import { Toolbar } from "@mui/material";
 import Box from "@mui/material/Box";
 
 export default function ChatPage() {
+
     const [mobileOpen, setMobileOpen] = useState(false);
     const [queryResult, setQueryResult] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
 
-    const handleSend = async ({ question, database }) => {
-        setIsLoading(true);
+    const handleExecute = async (data) => {
         // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        // Mock response - replace with actual API call
-        setQueryResult({
-            status: "FINISHED",
-            query: `SELECT p_name, p_category, p_price 
-                    FROM ${database}.products 
-                    WHERE p_category = 'electronics' 
-                    AND p_price > 100 
-                    ORDER BY p_price DESC 
-                    LIMIT 10;`,
-            data: {
-                column: "p_name",
-                value: "pale purple papaya lace drab"
-            },
-            executionTime: 245
-        });
-
-        setIsLoading(false);
+        // await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log("Executing query with data:", data);
+        const result = await executeQuery(data);
+        setQueryResult(result);
     };
 
     return (
@@ -74,14 +60,14 @@ export default function ChatPage() {
                         flex: { xs: 1, lg: 1 },
                         minWidth: { lg: 400 }
                     }}>
-                        <Chat onExecute={handleSend} />
+                        <Chat onExecute={handleExecute} />
                     </Box>
 
                     <Box sx={{
                         flex: { xs: 1, lg: 1 },
                         minWidth: { lg: 400 }
                     }}>
-                        <QueryResult queryResult={queryResult} isLoading={isLoading} />
+                        <QueryResult queryResult={queryResult} />
                     </Box>
                 </Box>
             </Box>

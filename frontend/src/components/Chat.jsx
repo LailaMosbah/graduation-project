@@ -115,7 +115,7 @@ export default function Chat({ onExecute }) {
         console.log("Sending SQL to execute:", payload);
         if (typeof onExecute === "function") {
             setOpenSendDialog(false);
-            await onExecute(data);
+            await onExecute(payload);
         }
 
         // Add your logic to send the payload to the backend or API
