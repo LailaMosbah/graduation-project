@@ -99,6 +99,7 @@ export default function QueryResult({ queryResult }) {
     }
 
     if (queryResult?.status === "FINISHED") {
+        console.log("size of data ", Object.keys(queryResult.data).length);
         return (
             <Card sx={{
                 flex: 1,
@@ -152,7 +153,7 @@ export default function QueryResult({ queryResult }) {
                         }}
                     >
                         <Typography variant="body2" fontWeight="medium">
-                            Query generated successfully! Found {queryResult.data ? "1 result" : "0 results"}
+                            Query generated successfully! Found {Object.keys(queryResult.data).length >= 0 ? `${Object.keys(queryResult.data).length} results` : " 0 result"}
                         </Typography>
                     </Alert>
 
@@ -233,10 +234,34 @@ export default function QueryResult({ queryResult }) {
 
                     {/* Execution Info */}
                     {queryResult.executionTime && (
-                        <Box sx={{ mt: 2, pt: 2, borderTop: "1px solid #f0f0f0" }}>
-                            <Typography variant="body2" color="text.secondary">
-                                ⚡ Executed in {queryResult.executionTime}ms
+                        <Box sx={{ display: "flex", gap: 1, mt: 2, pt: 2, borderTop: "1px solid #f0f0f0" }}>
+                            <Chip
+                                label={`Pending Time : ${queryResult.pendingTime}`}
+                                size="small"
+                                color="primary"
+                                variant="outlined"
+                            />
+                            <Chip
+                                label={`Executed in : ${queryResult.executionTime}`}
+                                size="small"
+                                color="primary"
+                                variant="outlined"
+                            />
+                            <Chip
+                                label={`Cost : ${queryResult.cost}`}
+                                size="small"
+                                color="primary"
+                                variant="outlined"
+                            />
+                            {/* <Typography variant="body2" color="text.secondary">
+                                Pending Time :  {queryResult.pendingTime}ms
                             </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Executed in : {queryResult.executionTime}ms
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Cost : {queryResult.cost}$
+                            </Typography> */}
                         </Box>
                     )}
                 </CardContent>
