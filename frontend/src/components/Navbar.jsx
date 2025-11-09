@@ -37,7 +37,8 @@ export default function Navbar({ handleDrawerToggle }) {
             width: { sm: `calc(100% - 280px)` },
             ml: { sm: `280px` },
             background: "linear-gradient(135deg, #094BB0 0%, #569CF9 100%)",
-            boxShadow: "0 4px 20px 0 rgba(0,0,0,0.1)",
+            boxShadow: "0 2px 6px rgba(0, 0, 0, 0.25)",
+            border: "none",
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
         >

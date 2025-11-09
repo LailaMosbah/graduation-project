@@ -38,9 +38,11 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
         <Box sx={{
             background: "linear-gradient(180deg, #f8fbff 0%, #f0f4f8 100%)",
             height: "100%",
-            borderRight: "1px solid #e0e0e0"
+            borderRight: "1px solid #e0e0e0",
+            // pt: "3px"
         }}>
-            <Toolbar />
+            {/* <Toolbar /> */}
+            {mobileOpen ? <Toolbar /> : null}
             <Box sx={{ p: 2, pb: 1 }}>
                 <Typography
                     variant="h6"
@@ -228,12 +230,13 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
                     "& .MuiDrawer-paper": {
                         width: drawerWidth,
                         boxSizing: "border-box",
-                        boxShadow: "4px 0 20px rgba(0,0,0,0.1)",
+                        boxShadow: "4px 0 20px rgba(0, 0, 0, 0.1)",
                         border: "none"
                     },
                 }}
                 open
             >
+                {/* <h1>hi</h1> */}
                 {drawerContent}
             </Drawer>
         </Box>
