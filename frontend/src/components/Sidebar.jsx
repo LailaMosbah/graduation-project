@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useDatabase } from "../contexts/useDatabase";
+import { Link, useLocation } from "react-router-dom";
 
 // MUI components
 import {
     Drawer, List, ListItemButton, ListItemText, ListItemIcon, Collapse, Divider, Toolbar, Box, Typography, Chip,
+    Button,
 } from "@mui/material";
 import {
     ExpandLess,
@@ -19,6 +21,10 @@ import {
 const drawerWidth = 280;
 
 export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
+    // Get current path to know if i am in chat page or add database page
+    const location = useLocation();
+    const currentPath = location.pathname;
+
     const [openSchemas, setOpenSchemas] = useState(true);
     const [openDb, setOpenDb] = useState({});
     const [openTable, setOpenTable] = useState({});
@@ -178,27 +184,79 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
 
                 <Divider sx={{ my: 2 }} />
 
+                {/* Button to Add a Databases (in Chat page) */}
+                {currentPath === "/chat" && (
+                    <>
+                        <ListItemButton disableGutters disableRipple sx={{
+                            justifyContent: "center", mt: 1,
+                            "&:hover": {
+                                backgroundColor: "transparent",
+                            },
+                            "&:focuse": {
+                                backgroundColor: "transparent",
+                            },
+                            "&.Mui-selected, &:active": {
+                                backgroundColor: "transparent",
+                            },
+                        }}>
+                            <Link
+                                to="/chat/addDatabase"
+                                starticon={<DatabaseIcon />}
+                                fullwidth={true}
+                                style={{
+                                    textDecoration: "none",
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    background: "linear-gradient(135deg, #0A4DB3 0%, #3B82F6 100%)",
+                                    color: "#fff",
+                                    padding: "10px 0",
+                                    borderRadius: "24px",
+                                    fontWeight: "600",
+                                    boxShadow: "0 4px 12px rgba(59,130,246,0.3)",
+                                    transition: "all 0.25s ease",
+                                    "&:hover": {
+                                        background: "linear-gradient(135deg, #0945A0 0%, #2563EB 100%)",
+                                        boxShadow: "0 6px 20px rgba(59,130,246,0.4)",
+                                        transform: "translateY(-2px)",
+                                    },
+                                    "&:active": {
+                                        transform: "scale(0.98)",
+                                    },
+
+                                }}
+                            >
+                                Add Database
+                            </Link>
+                        </ListItemButton>
+                        <Divider sx={{ my: 2 }} />
+                    </>
+                )}
+
+
+
                 {/* Reports */}
-                <ListItemButton sx={{ borderRadius: 2, mb: 1 }}>
+                {/* <ListItemButton sx={{ borderRadius: 2, mb: 1 }}>
                     <ListItemIcon sx={{ minWidth: 40 }}>
                         <ReportsIcon />
                     </ListItemIcon>
                     <ListItemText
                         primary="Reports"
                     />
-                </ListItemButton>
+                </ListItemButton> */}
 
-                <Divider sx={{ my: 2 }} />
+                {/* <Divider sx={{ my: 2 }} /> */}
 
                 {/* Settings */}
-                <ListItemButton sx={{ borderRadius: 2 }}>
+                {/* <ListItemButton sx={{ borderRadius: 2 }}>
                     <ListItemIcon sx={{ minWidth: 40 }}>
                         <SettingsIcon />
                     </ListItemIcon>
                     <ListItemText
                         primary="Settings"
                     />
-                </ListItemButton>
+                </ListItemButton> */}
+
             </List>
         </Box>
     );
