@@ -5,10 +5,8 @@ import {
     Alert,
     Box
 } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
 
-export default function FileUploader({ idTable }) {
-    const { control, handleSubmit } = useForm();
+export default function FileUploader({ setValue, errors }) {
     const [uploadState, setUploadState] = useState("idle");
     const [progress, setProgress] = useState(0);
 
@@ -30,69 +28,69 @@ export default function FileUploader({ idTable }) {
         }, 200);
     };
 
-    const onSubmit = (data) => {
-        const file = data.file?.[0];
-        console.log("Uploading file for table ID:", idTable);
-
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
         if (!file) return;
 
-        simulateUpload(file);
-    };
+        // Reset states before new upload
+        setUploadState("idle");
+        setProgress(0);
+
+        setValue("dataFile", file);
+        try {
+            simulateUpload(file);
+        }
+        catch (err) {
+            console.error("Upload error:", err);
+            setUploadState("error");
+        }
+
+    }
+
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <Box width="100%" sx={{ display: 'flex', direction: "row", gap: 2, alignItems: 'center', mt: 2 }}>
+        <Box width="100%" sx={{ display: 'flex', direction: "row", gap: 2, alignItems: 'center', mt: 2 }}>
+            <Button
+                variant="contained"
+                component="label"
+                color={
+                    uploadState === "success"
+                        ? "success"
+                        : uploadState === "error"
+                            ? "error"
+                            : "primary"
+                }
+                disabled={uploadState === "uploading"}
+            >
+                {uploadState === "idle" && "Upload Data"}
+                {uploadState === "uploading" && "Uploading..."}
+                {uploadState === "success" && "Uploaded ✓"}
+                {uploadState === "error" && "Failed ✗"}
 
-                <Controller
-                    name="file"
-                    control={control}
-                    defaultValue={null}
-                    render={({ field }) => (
-                        <Button
-                            variant="contained"
-                            component="label"
-                            color={
-                                uploadState === "success"
-                                    ? "success"
-                                    : uploadState === "error"
-                                        ? "error"
-                                        : "primary"
-                            }
-                            disabled={uploadState === "uploading"}
-                        >
-                            {uploadState === "idle" && "Upload Data"}
-                            {uploadState === "uploading" && "Uploading..."}
-                            {uploadState === "success" && "Uploaded ✓"}
-                            {uploadState === "error" && "Failed ✗"}
-
-                            <input
-                                type="file"
-                                hidden
-                                onChange={(e) => {
-                                    field.onChange(e.target.files);
-                                    handleSubmit(onSubmit)();
-                                }}
-                            />
-                        </Button>
-                    )}
+                <input
+                    type="file"
+                    hidden
+                    onChange={handleFileUpload}
+                    error={!!errors.dataFile}
+                    helperText={errors.dataFile?.message}
                 />
+            </Button>
 
-                {uploadState === "uploading" && (
-                    <LinearProgress
-                        variant="determinate"
-                        value={progress}
-                        sx={{ borderRadius: 1, height: 8 }}
-                    />
-                )}
+            {uploadState === "uploading" && (
+                <LinearProgress
+                    variant="determinate"
+                    value={progress}
+                    sx={{ borderRadius: 1, height: 8 }}
+                />
+            )}
 
-                {uploadState === "success" && (
-                    <Alert severity="success">File uploaded successfully.</Alert>
-                )}
+            {uploadState === "success" && (
+                <Alert severity="success">File uploaded successfully.</Alert>
+            )}
 
-                {uploadState === "error" && (
-                    <Alert severity="error">Upload failed. Please try again.</Alert>
-                )}
-            </Box>
-        </form>
+            {uploadState === "error" && (
+                <Alert severity="error">Upload failed. Please try again.</Alert>
+            )}
+        </Box>
     );
 }

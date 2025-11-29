@@ -116,7 +116,9 @@ export default function Chat({ onExecute }) {
                 </CardContent>
             </Card>
 
-            {/* Dialogs */}
+            {/*
+            //region Dialogs
+            */}
             <EditDialog
                 open={openEditDialog}
                 onClose={() => setOpenEditDialog(false)}
