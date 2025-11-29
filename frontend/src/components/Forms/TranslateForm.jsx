@@ -79,12 +79,6 @@ export default function TranslateForm({ onTranslate, databases, defaultDatabase 
                                             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                                                 <Box sx={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "primary.main" }} />
                                                 {db.dbName}
-                                                <Chip
-                                                    label={`${db.tables.length} tables`}
-                                                    size="small"
-                                                    variant="outlined"
-                                                    sx={{ ml: "auto", height: 20, fontSize: "0.6rem" }}
-                                                />
                                             </Box>
                                         </MenuItem>
                                     ))}

@@ -1,0 +1,238 @@
+#region   DrawerConent with table ,columns
+  
+  const [openSchemas, setOpenSchemas] = useState(true);
+    const [openDb, setOpenDb] = useState({});
+    const [openTable, setOpenTable] = useState({});
+
+    const { databases } = useDatabase();
+    const fakeData = databases;
+
+    const handleDbClick = (dbName) => {
+        setOpenDb(prev => ({ ...prev, [dbName]: !prev[dbName] }));
+    };
+
+    const handleTableClick = (tableName) => {
+        setOpenTable(prev => ({ ...prev, [tableName]: !prev[tableName] }));
+    };
+
+    // #region DrawerConent
+    const drawerContent = (
+        <Box sx={{
+            background: "linear-gradient(180deg, #f8fbff 0%, #f0f4f8 100%)",
+            height: "100%",
+            borderRight: "1px solid #e0e0e0",
+            // pt: "3px"
+        }}>
+            {/* <Toolbar /> */}
+            {mobileOpen ? <Toolbar /> : null}
+            <Box sx={{ p: 2, pb: 1 }}>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        color: "primary.main",
+                        fontWeight: "bold",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1
+                    }}
+                >
+                    <SchemaIcon />
+                    Database Explorer
+                </Typography>
+                <Chip
+                    label={`${fakeData.length} databases`}
+                    size="small"
+                    variant="outlined"
+                    sx={{ mt: 1, fontSize: "0.7rem" }}
+                />
+            </Box>
+
+            <Divider />
+
+            <List sx={{ px: 1 }}>
+                {/* Schemas Section */}
+                <ListItemButton
+                    onClick={() => setOpenSchemas(!openSchemas)}
+                    sx={{
+                        borderRadius: 2,
+                        mb: 1,
+                        '&:hover': {
+                            backgroundColor: 'primary.light',
+                            color: 'primary.contrastText',
+                            '& .MuiListItemIcon-root': {
+                                color: 'primary.contrastText'
+                            }
+                        }
+                    }}
+                >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                        <DatabaseIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Schemas"
+                    />
+                    {openSchemas ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+
+                <Collapse in={openSchemas} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        {fakeData.map((db) => (
+                            <React.Fragment key={db.dbName}>
+                                <ListItemButton
+                                    sx={{
+                                        pl: 4,
+                                        borderRadius: 2,
+                                        mb: 0.5,
+                                        '&:hover': {
+                                            backgroundColor: 'action.hover',
+                                        }
+                                    }}
+                                    onClick={() => handleDbClick(db.dbName)}
+                                >
+                                    <ListItemIcon sx={{ minWidth: 36 }}>
+                                        <DatabaseIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={db.dbName}
+                                    />
+                                    <Chip
+                                        label={db.tables.length}
+                                        size="small"
+                                        sx={{ height: 20, fontSize: '0.6rem' }}
+                                    />
+                                    {openDb[db.dbName] ? <ExpandLess /> : <ExpandMore />}
+                                </ListItemButton>
+
+                                <Collapse in={openDb[db.dbName]} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
+                                        {db.tables.map((table) => (
+                                            <React.Fragment key={table.tableName}>
+                                                <ListItemButton
+                                                    sx={{
+                                                        pl: 6,
+                                                        borderRadius: 2,
+                                                        mb: 0.5,
+                                                        '&:hover': {
+                                                            backgroundColor: 'action.hover',
+                                                        }
+                                                    }}
+                                                    onClick={() => handleTableClick(table.tableName)}
+                                                >
+                                                    <ListItemIcon sx={{ minWidth: 32 }}>
+                                                        <TableIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText
+                                                        primary={table.tableName}
+                                                    />
+                                                    {openTable[table.tableName] ? <ExpandLess /> : <ExpandMore />}
+                                                </ListItemButton>
+
+                                                <Collapse in={openTable[table.tableName]} timeout="auto" unmountOnExit>
+                                                    <List component="div" disablePadding>
+                                                        {table.columns.map((col) => (
+                                                            <ListItemButton
+                                                                key={col}
+                                                                sx={{
+                                                                    pl: 8,
+                                                                    borderRadius: 2,
+                                                                    mb: 0.2,
+                                                                    minHeight: 32
+                                                                }}
+                                                            >
+                                                                <ListItemIcon sx={{ minWidth: 28 }}>
+                                                                    <ColumnIcon fontSize="small" />
+                                                                </ListItemIcon>
+                                                                <ListItemText
+                                                                    primary={col}
+                                                                />
+                                                            </ListItemButton>
+                                                        ))}
+                                                    </List>
+                                                </Collapse>
+                                            </React.Fragment>
+                                        ))}
+                                    </List>
+                                </Collapse>
+                            </React.Fragment>
+                        ))}
+                    </List>
+                </Collapse>
+
+                <Divider sx={{ my: 2 }} />
+
+                {/* Button to Add a Databases (in Chat page) */}
+                {currentPath === "/chat" && (
+                    <>
+                        <ListItemButton disableGutters disableRipple sx={{
+                            justifyContent: "center", mt: 1,
+                            "&:hover": {
+                                backgroundColor: "transparent",
+                            },
+                            "&:focuse": {
+                                backgroundColor: "transparent",
+                            },
+                            "&.Mui-selected, &:active": {
+                                backgroundColor: "transparent",
+                            },
+                        }}>
+                            <Link
+                                to="/chat/addDatabase"
+                                starticon={<DatabaseIcon />}
+                                fullwidth={true}
+                                style={{
+                                    textDecoration: "none",
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    background: "linear-gradient(135deg, #0A4DB3 0%, #3B82F6 100%)",
+                                    color: "#fff",
+                                    padding: "10px 0",
+                                    borderRadius: "24px",
+                                    fontWeight: "600",
+                                    boxShadow: "0 4px 12px rgba(59,130,246,0.3)",
+                                    transition: "all 0.25s ease",
+                                    "&:hover": {
+                                        background: "linear-gradient(135deg, #0945A0 0%, #2563EB 100%)",
+                                        boxShadow: "0 6px 20px rgba(59,130,246,0.4)",
+                                        transform: "translateY(-2px)",
+                                    },
+                                    "&:active": {
+                                        transform: "scale(0.98)",
+                                    },
+
+                                }}
+                            >
+                                Add Database
+                            </Link>
+                        </ListItemButton>
+                        <Divider sx={{ my: 2 }} />
+                    </>
+                )}
+
+
+
+                {/* Reports */}
+                {/* <ListItemButton sx={{ borderRadius: 2, mb: 1 }}>
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                        <ReportsIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Reports"
+                    />
+                </ListItemButton> */}
+
+                {/* <Divider sx={{ my: 2 }} /> */}
+
+                {/* Settings */}
+                {/* <ListItemButton sx={{ borderRadius: 2 }}>
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                        <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Settings"
+                    />
+                </ListItemButton> */}
+
+            </List>
+        </Box>
+    );
