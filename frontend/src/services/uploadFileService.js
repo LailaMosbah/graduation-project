@@ -1,8 +1,9 @@
 async function requestPresign(file, userId) {
-  console.log(import.meta.env.VITE_API_URL);
-  console.log(`${import.meta.env.VITE_API_URL}/uploads/presign`);
+  const Vite_API_URL = "https://otuxwl1qre.execute-api.us-east-1.amazonaws.com";
+  console.log(Vite_API_URL);
+  console.log(`${Vite_API_URL}/uploads/presign`);
 
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/uploads/presign`, {
+  const res = await fetch(`${Vite_API_URL}/uploads/presign`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
